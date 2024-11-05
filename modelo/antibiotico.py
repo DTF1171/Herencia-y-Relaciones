@@ -3,6 +3,7 @@ from .producto import _Producto
 class _Antibiotico(_Producto):
     def __init__(self, registro_ICA, nombre, valor, dosis, tipo_animal):
         super().__init__(registro_ICA, nombre, valor)
+        dosis = int(dosis)
         if dosis < 400 or dosis > 600:
             raise ValueError("La dosis debe estar entre 400Kg y 600Kg.")
         if tipo_animal not in ["Bovino", "Caprino", "Porcino"]:
