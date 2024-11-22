@@ -1,4 +1,3 @@
-# UI/cliente_ui.py
 import tkinter as tk
 from tkinter import messagebox
 from crud.cliente_crud import crear_cliente, buscar_por_cedula
@@ -17,12 +16,9 @@ def ventana_cliente():
 
     def buscar_cliente_action():
         cedula = entry_cedula.get()
-        facturas = buscar_por_cedula(cedula)
-        if not facturas:
-            messagebox.showerror("Error", "No se encontraron facturas para el cliente.")
-        else:
-            facturas_info = "\n".join([f"Fecha: {factura.get_fecha()}, Total: ${factura.calcular_total()}" for factura in facturas])
-            messagebox.showinfo("Facturas", facturas_info)
+        resultado = buscar_por_cedula(cedula, ventana)  # Pasamos la ventana correctamente
+        if resultado["exito"]:
+            messagebox.showinfo("Historial de Facturas", resultado["mensaje"], parent=ventana)
 
     # Widgets
     tk.Label(ventana, text="Nombre:").grid(row=0, column=0, padx=5, pady=5)
@@ -34,4 +30,7 @@ def ventana_cliente():
     entry_cedula.grid(row=1, column=1, padx=5, pady=5)
 
     tk.Button(ventana, text="Crear Cliente", command=crear_cliente_action).grid(row=2, column=0, pady=10)
-    tk.Button(ventana, text="Buscar Cliente", command=buscar_cliente_action).grid(row=2, column=1, pady=10)
+    tk.Button(ventana, text="Buscar Facturas del Cliente", command=buscar_cliente_action).grid(row=2, column=1, pady=10)
+
+    ventana.mainloop()
+
